@@ -1,0 +1,7 @@
+int c[3];
+int b;
+int main(){
+    c[1]=1;
+    b=5+c[1];
+	print c[1];
+}

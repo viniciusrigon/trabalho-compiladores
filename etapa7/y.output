@@ -1,0 +1,1659 @@
+Terminals unused in grammar
+
+   KW_TRUE
+   KW_FALSE
+   LIT_CHAR
+   TOKEN_ERROR
+   '!'
+
+
+State 102 conflicts: 1 shift/reduce
+
+
+Grammar
+
+    0 $accept: program $end
+
+    1 program: declarationList
+    2        | /* empty */
+
+    3 declarationList: declaration declarationList
+    4                | declaration
+
+    5 tipo: KW_INT
+    6     | KW_BYTE
+
+    7 declaration: tipo TK_IDENTIFIER '[' LIT_INTEGER ']' ';'
+    8            | tipo TK_IDENTIFIER ';'
+    9            | tipo TK_IDENTIFIER '(' funcVarBlock ')' commandBlock
+
+   10 funcVarBlock: funcVar funcVarBlockCont
+   11             | /* empty */
+
+   12 funcVarBlockCont: ',' funcVar funcVarBlockCont
+   13                 | /* empty */
+
+   14 funcVar: tipo TK_IDENTIFIER
+
+   15 commandBlock: '{' commands '}'
+
+   16 commands: command ';' commands
+   17         | command
+   18         | /* empty */
+
+   19 command: assignment
+   20        | read
+   21        | print
+   22        | return
+   23        | if
+   24        | while
+   25        | commandBlock
+   26        | ';'
+
+   27 assignment: TK_IDENTIFIER '=' exp
+   28           | TK_IDENTIFIER '[' exp ']' '=' exp
+
+   29 read: KW_READ TK_IDENTIFIER
+
+   30 print: KW_PRINT LIT_STRING
+   31      | KW_PRINT exp
+
+   32 return: KW_RETURN exp
+
+   33 if: KW_IF '(' exp ')' KW_THEN command KW_ELSE command
+   34   | KW_IF '(' exp ')' KW_THEN command
+
+   35 while: KW_WHILE '(' exp ')' command
+
+   36 exp: TK_IDENTIFIER
+   37    | TK_IDENTIFIER '[' exp ']'
+   38    | TK_IDENTIFIER '(' args ')'
+   39    | LIT_INTEGER
+   40    | '(' exp ')'
+   41    | exp '+' exp
+   42    | exp '-' exp
+   43    | exp '*' exp
+   44    | exp '/' exp
+   45    | exp OPERATOR_LE exp
+   46    | exp OPERATOR_GE exp
+   47    | exp OPERATOR_EQ exp
+   48    | exp OPERATOR_NE exp
+   49    | exp '>' exp
+   50    | exp '<' exp
+   51    | exp OPERATOR_AND exp
+   52    | exp OPERATOR_OR exp
+
+   53 args: exp argsCont
+   54     | /* empty */
+
+   55 argsCont: ',' exp argsCont
+   56         | /* empty */
+
+
+Terminals, with rules where they appear
+
+$end (0) 0
+'!' (33)
+'(' (40) 9 33 34 35 38 40
+')' (41) 9 33 34 35 38 40
+'*' (42) 43
+'+' (43) 41
+',' (44) 12 55
+'-' (45) 42
+'/' (47) 44
+';' (59) 7 8 16 26
+'<' (60) 50
+'=' (61) 27 28
+'>' (62) 49
+'[' (91) 7 28 37
+']' (93) 7 28 37
+'{' (123) 15
+'}' (125) 15
+error (256)
+KW_INT (258) 5
+KW_BYTE (259) 6
+KW_IF (260) 33 34
+KW_THEN (261) 33 34
+KW_ELSE (262) 33
+KW_WHILE (263) 35
+KW_PRINT (264) 30 31
+KW_RETURN (265) 32
+KW_READ (266) 29
+KW_TRUE (267)
+KW_FALSE (268)
+OPERATOR_LE (269) 45
+OPERATOR_GE (270) 46
+OPERATOR_EQ (271) 47
+OPERATOR_NE (272) 48
+OPERATOR_AND (273) 51
+OPERATOR_OR (274) 52
+TK_IDENTIFIER (275) 7 8 9 14 27 28 29 36 37 38
+LIT_INTEGER (276) 7 39
+LIT_CHAR (277)
+LIT_STRING (278) 30
+TOKEN_ERROR (279)
+
+
+Nonterminals, with rules where they appear
+
+$accept (41)
+    on left: 0
+program (42)
+    on left: 1 2, on right: 0
+declarationList (43)
+    on left: 3 4, on right: 1 3
+tipo (44)
+    on left: 5 6, on right: 7 8 9 14
+declaration (45)
+    on left: 7 8 9, on right: 3 4
+funcVarBlock (46)
+    on left: 10 11, on right: 9
+funcVarBlockCont (47)
+    on left: 12 13, on right: 10 12
+funcVar (48)
+    on left: 14, on right: 10 12
+commandBlock (49)
+    on left: 15, on right: 9 25
+commands (50)
+    on left: 16 17 18, on right: 15 16
+command (51)
+    on left: 19 20 21 22 23 24 25 26, on right: 16 17 33 34 35
+assignment (52)
+    on left: 27 28, on right: 19
+read (53)
+    on left: 29, on right: 20
+print (54)
+    on left: 30 31, on right: 21
+return (55)
+    on left: 32, on right: 22
+if (56)
+    on left: 33 34, on right: 23
+while (57)
+    on left: 35, on right: 24
+exp (58)
+    on left: 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52, on right:
+    27 28 31 32 33 34 35 37 40 41 42 43 44 45 46 47 48 49 50 51 52
+    53 55
+args (59)
+    on left: 53 54, on right: 38
+argsCont (60)
+    on left: 55 56, on right: 53 55
+
+
+state 0
+
+    0 $accept: . program $end
+
+    KW_INT   shift, and go to state 1
+    KW_BYTE  shift, and go to state 2
+
+    $default  reduce using rule 2 (program)
+
+    program          go to state 3
+    declarationList  go to state 4
+    tipo             go to state 5
+    declaration      go to state 6
+
+
+state 1
+
+    5 tipo: KW_INT .
+
+    $default  reduce using rule 5 (tipo)
+
+
+state 2
+
+    6 tipo: KW_BYTE .
+
+    $default  reduce using rule 6 (tipo)
+
+
+state 3
+
+    0 $accept: program . $end
+
+    $end  shift, and go to state 7
+
+
+state 4
+
+    1 program: declarationList .
+
+    $default  reduce using rule 1 (program)
+
+
+state 5
+
+    7 declaration: tipo . TK_IDENTIFIER '[' LIT_INTEGER ']' ';'
+    8            | tipo . TK_IDENTIFIER ';'
+    9            | tipo . TK_IDENTIFIER '(' funcVarBlock ')' commandBlock
+
+    TK_IDENTIFIER  shift, and go to state 8
+
+
+state 6
+
+    3 declarationList: declaration . declarationList
+    4                | declaration .
+
+    KW_INT   shift, and go to state 1
+    KW_BYTE  shift, and go to state 2
+
+    $default  reduce using rule 4 (declarationList)
+
+    declarationList  go to state 9
+    tipo             go to state 5
+    declaration      go to state 6
+
+
+state 7
+
+    0 $accept: program $end .
+
+    $default  accept
+
+
+state 8
+
+    7 declaration: tipo TK_IDENTIFIER . '[' LIT_INTEGER ']' ';'
+    8            | tipo TK_IDENTIFIER . ';'
+    9            | tipo TK_IDENTIFIER . '(' funcVarBlock ')' commandBlock
+
+    '['  shift, and go to state 10
+    ';'  shift, and go to state 11
+    '('  shift, and go to state 12
+
+
+state 9
+
+    3 declarationList: declaration declarationList .
+
+    $default  reduce using rule 3 (declarationList)
+
+
+state 10
+
+    7 declaration: tipo TK_IDENTIFIER '[' . LIT_INTEGER ']' ';'
+
+    LIT_INTEGER  shift, and go to state 13
+
+
+state 11
+
+    8 declaration: tipo TK_IDENTIFIER ';' .
+
+    $default  reduce using rule 8 (declaration)
+
+
+state 12
+
+    9 declaration: tipo TK_IDENTIFIER '(' . funcVarBlock ')' commandBlock
+
+    KW_INT   shift, and go to state 1
+    KW_BYTE  shift, and go to state 2
+
+    $default  reduce using rule 11 (funcVarBlock)
+
+    tipo          go to state 14
+    funcVarBlock  go to state 15
+    funcVar       go to state 16
+
+
+state 13
+
+    7 declaration: tipo TK_IDENTIFIER '[' LIT_INTEGER . ']' ';'
+
+    ']'  shift, and go to state 17
+
+
+state 14
+
+   14 funcVar: tipo . TK_IDENTIFIER
+
+    TK_IDENTIFIER  shift, and go to state 18
+
+
+state 15
+
+    9 declaration: tipo TK_IDENTIFIER '(' funcVarBlock . ')' commandBlock
+
+    ')'  shift, and go to state 19
+
+
+state 16
+
+   10 funcVarBlock: funcVar . funcVarBlockCont
+
+    ','  shift, and go to state 20
+
+    $default  reduce using rule 13 (funcVarBlockCont)
+
+    funcVarBlockCont  go to state 21
+
+
+state 17
+
+    7 declaration: tipo TK_IDENTIFIER '[' LIT_INTEGER ']' . ';'
+
+    ';'  shift, and go to state 22
+
+
+state 18
+
+   14 funcVar: tipo TK_IDENTIFIER .
+
+    $default  reduce using rule 14 (funcVar)
+
+
+state 19
+
+    9 declaration: tipo TK_IDENTIFIER '(' funcVarBlock ')' . commandBlock
+
+    '{'  shift, and go to state 23
+
+    commandBlock  go to state 24
+
+
+state 20
+
+   12 funcVarBlockCont: ',' . funcVar funcVarBlockCont
+
+    KW_INT   shift, and go to state 1
+    KW_BYTE  shift, and go to state 2
+
+    tipo     go to state 14
+    funcVar  go to state 25
+
+
+state 21
+
+   10 funcVarBlock: funcVar funcVarBlockCont .
+
+    $default  reduce using rule 10 (funcVarBlock)
+
+
+state 22
+
+    7 declaration: tipo TK_IDENTIFIER '[' LIT_INTEGER ']' ';' .
+
+    $default  reduce using rule 7 (declaration)
+
+
+state 23
+
+   15 commandBlock: '{' . commands '}'
+
+    KW_IF          shift, and go to state 26
+    KW_WHILE       shift, and go to state 27
+    KW_PRINT       shift, and go to state 28
+    KW_RETURN      shift, and go to state 29
+    KW_READ        shift, and go to state 30
+    TK_IDENTIFIER  shift, and go to state 31
+    ';'            shift, and go to state 32
+    '{'            shift, and go to state 23
+
+    $default  reduce using rule 18 (commands)
+
+    commandBlock  go to state 33
+    commands      go to state 34
+    command       go to state 35
+    assignment    go to state 36
+    read          go to state 37
+    print         go to state 38
+    return        go to state 39
+    if            go to state 40
+    while         go to state 41
+
+
+state 24
+
+    9 declaration: tipo TK_IDENTIFIER '(' funcVarBlock ')' commandBlock .
+
+    $default  reduce using rule 9 (declaration)
+
+
+state 25
+
+   12 funcVarBlockCont: ',' funcVar . funcVarBlockCont
+
+    ','  shift, and go to state 20
+
+    $default  reduce using rule 13 (funcVarBlockCont)
+
+    funcVarBlockCont  go to state 42
+
+
+state 26
+
+   33 if: KW_IF . '(' exp ')' KW_THEN command KW_ELSE command
+   34   | KW_IF . '(' exp ')' KW_THEN command
+
+    '('  shift, and go to state 43
+
+
+state 27
+
+   35 while: KW_WHILE . '(' exp ')' command
+
+    '('  shift, and go to state 44
+
+
+state 28
+
+   30 print: KW_PRINT . LIT_STRING
+   31      | KW_PRINT . exp
+
+    TK_IDENTIFIER  shift, and go to state 45
+    LIT_INTEGER    shift, and go to state 46
+    LIT_STRING     shift, and go to state 47
+    '('            shift, and go to state 48
+
+    exp  go to state 49
+
+
+state 29
+
+   32 return: KW_RETURN . exp
+
+    TK_IDENTIFIER  shift, and go to state 45
+    LIT_INTEGER    shift, and go to state 46
+    '('            shift, and go to state 48
+
+    exp  go to state 50
+
+
+state 30
+
+   29 read: KW_READ . TK_IDENTIFIER
+
+    TK_IDENTIFIER  shift, and go to state 51
+
+
+state 31
+
+   27 assignment: TK_IDENTIFIER . '=' exp
+   28           | TK_IDENTIFIER . '[' exp ']' '=' exp
+
+    '['  shift, and go to state 52
+    '='  shift, and go to state 53
+
+
+state 32
+
+   26 command: ';' .
+
+    $default  reduce using rule 26 (command)
+
+
+state 33
+
+   25 command: commandBlock .
+
+    $default  reduce using rule 25 (command)
+
+
+state 34
+
+   15 commandBlock: '{' commands . '}'
+
+    '}'  shift, and go to state 54
+
+
+state 35
+
+   16 commands: command . ';' commands
+   17         | command .
+
+    ';'  shift, and go to state 55
+
+    $default  reduce using rule 17 (commands)
+
+
+state 36
+
+   19 command: assignment .
+
+    $default  reduce using rule 19 (command)
+
+
+state 37
+
+   20 command: read .
+
+    $default  reduce using rule 20 (command)
+
+
+state 38
+
+   21 command: print .
+
+    $default  reduce using rule 21 (command)
+
+
+state 39
+
+   22 command: return .
+
+    $default  reduce using rule 22 (command)
+
+
+state 40
+
+   23 command: if .
+
+    $default  reduce using rule 23 (command)
+
+
+state 41
+
+   24 command: while .
+
+    $default  reduce using rule 24 (command)
+
+
+state 42
+
+   12 funcVarBlockCont: ',' funcVar funcVarBlockCont .
+
+    $default  reduce using rule 12 (funcVarBlockCont)
+
+
+state 43
+
+   33 if: KW_IF '(' . exp ')' KW_THEN command KW_ELSE command
+   34   | KW_IF '(' . exp ')' KW_THEN command
+
+    TK_IDENTIFIER  shift, and go to state 45
+    LIT_INTEGER    shift, and go to state 46
+    '('            shift, and go to state 48
+
+    exp  go to state 56
+
+
+state 44
+
+   35 while: KW_WHILE '(' . exp ')' command
+
+    TK_IDENTIFIER  shift, and go to state 45
+    LIT_INTEGER    shift, and go to state 46
+    '('            shift, and go to state 48
+
+    exp  go to state 57
+
+
+state 45
+
+   36 exp: TK_IDENTIFIER .
+   37    | TK_IDENTIFIER . '[' exp ']'
+   38    | TK_IDENTIFIER . '(' args ')'
+
+    '['  shift, and go to state 58
+    '('  shift, and go to state 59
+
+    $default  reduce using rule 36 (exp)
+
+
+state 46
+
+   39 exp: LIT_INTEGER .
+
+    $default  reduce using rule 39 (exp)
+
+
+state 47
+
+   30 print: KW_PRINT LIT_STRING .
+
+    $default  reduce using rule 30 (print)
+
+
+state 48
+
+   40 exp: '(' . exp ')'
+
+    TK_IDENTIFIER  shift, and go to state 45
+    LIT_INTEGER    shift, and go to state 46
+    '('            shift, and go to state 48
+
+    exp  go to state 60
+
+
+state 49
+
+   31 print: KW_PRINT exp .
+   41 exp: exp . '+' exp
+   42    | exp . '-' exp
+   43    | exp . '*' exp
+   44    | exp . '/' exp
+   45    | exp . OPERATOR_LE exp
+   46    | exp . OPERATOR_GE exp
+   47    | exp . OPERATOR_EQ exp
+   48    | exp . OPERATOR_NE exp
+   49    | exp . '>' exp
+   50    | exp . '<' exp
+   51    | exp . OPERATOR_AND exp
+   52    | exp . OPERATOR_OR exp
+
+    OPERATOR_LE   shift, and go to state 61
+    OPERATOR_GE   shift, and go to state 62
+    OPERATOR_EQ   shift, and go to state 63
+    OPERATOR_NE   shift, and go to state 64
+    OPERATOR_AND  shift, and go to state 65
+    OPERATOR_OR   shift, and go to state 66
+    '>'           shift, and go to state 67
+    '<'           shift, and go to state 68
+    '+'           shift, and go to state 69
+    '-'           shift, and go to state 70
+    '*'           shift, and go to state 71
+    '/'           shift, and go to state 72
+
+    $default  reduce using rule 31 (print)
+
+
+state 50
+
+   32 return: KW_RETURN exp .
+   41 exp: exp . '+' exp
+   42    | exp . '-' exp
+   43    | exp . '*' exp
+   44    | exp . '/' exp
+   45    | exp . OPERATOR_LE exp
+   46    | exp . OPERATOR_GE exp
+   47    | exp . OPERATOR_EQ exp
+   48    | exp . OPERATOR_NE exp
+   49    | exp . '>' exp
+   50    | exp . '<' exp
+   51    | exp . OPERATOR_AND exp
+   52    | exp . OPERATOR_OR exp
+
+    OPERATOR_LE   shift, and go to state 61
+    OPERATOR_GE   shift, and go to state 62
+    OPERATOR_EQ   shift, and go to state 63
+    OPERATOR_NE   shift, and go to state 64
+    OPERATOR_AND  shift, and go to state 65
+    OPERATOR_OR   shift, and go to state 66
+    '>'           shift, and go to state 67
+    '<'           shift, and go to state 68
+    '+'           shift, and go to state 69
+    '-'           shift, and go to state 70
+    '*'           shift, and go to state 71
+    '/'           shift, and go to state 72
+
+    $default  reduce using rule 32 (return)
+
+
+state 51
+
+   29 read: KW_READ TK_IDENTIFIER .
+
+    $default  reduce using rule 29 (read)
+
+
+state 52
+
+   28 assignment: TK_IDENTIFIER '[' . exp ']' '=' exp
+
+    TK_IDENTIFIER  shift, and go to state 45
+    LIT_INTEGER    shift, and go to state 46
+    '('            shift, and go to state 48
+
+    exp  go to state 73
+
+
+state 53
+
+   27 assignment: TK_IDENTIFIER '=' . exp
+
+    TK_IDENTIFIER  shift, and go to state 45
+    LIT_INTEGER    shift, and go to state 46
+    '('            shift, and go to state 48
+
+    exp  go to state 74
+
+
+state 54
+
+   15 commandBlock: '{' commands '}' .
+
+    $default  reduce using rule 15 (commandBlock)
+
+
+state 55
+
+   16 commands: command ';' . commands
+
+    KW_IF          shift, and go to state 26
+    KW_WHILE       shift, and go to state 27
+    KW_PRINT       shift, and go to state 28
+    KW_RETURN      shift, and go to state 29
+    KW_READ        shift, and go to state 30
+    TK_IDENTIFIER  shift, and go to state 31
+    ';'            shift, and go to state 32
+    '{'            shift, and go to state 23
+
+    $default  reduce using rule 18 (commands)
+
+    commandBlock  go to state 33
+    commands      go to state 75
+    command       go to state 35
+    assignment    go to state 36
+    read          go to state 37
+    print         go to state 38
+    return        go to state 39
+    if            go to state 40
+    while         go to state 41
+
+
+state 56
+
+   33 if: KW_IF '(' exp . ')' KW_THEN command KW_ELSE command
+   34   | KW_IF '(' exp . ')' KW_THEN command
+   41 exp: exp . '+' exp
+   42    | exp . '-' exp
+   43    | exp . '*' exp
+   44    | exp . '/' exp
+   45    | exp . OPERATOR_LE exp
+   46    | exp . OPERATOR_GE exp
+   47    | exp . OPERATOR_EQ exp
+   48    | exp . OPERATOR_NE exp
+   49    | exp . '>' exp
+   50    | exp . '<' exp
+   51    | exp . OPERATOR_AND exp
+   52    | exp . OPERATOR_OR exp
+
+    OPERATOR_LE   shift, and go to state 61
+    OPERATOR_GE   shift, and go to state 62
+    OPERATOR_EQ   shift, and go to state 63
+    OPERATOR_NE   shift, and go to state 64
+    OPERATOR_AND  shift, and go to state 65
+    OPERATOR_OR   shift, and go to state 66
+    '>'           shift, and go to state 67
+    '<'           shift, and go to state 68
+    '+'           shift, and go to state 69
+    '-'           shift, and go to state 70
+    '*'           shift, and go to state 71
+    '/'           shift, and go to state 72
+    ')'           shift, and go to state 76
+
+
+state 57
+
+   35 while: KW_WHILE '(' exp . ')' command
+   41 exp: exp . '+' exp
+   42    | exp . '-' exp
+   43    | exp . '*' exp
+   44    | exp . '/' exp
+   45    | exp . OPERATOR_LE exp
+   46    | exp . OPERATOR_GE exp
+   47    | exp . OPERATOR_EQ exp
+   48    | exp . OPERATOR_NE exp
+   49    | exp . '>' exp
+   50    | exp . '<' exp
+   51    | exp . OPERATOR_AND exp
+   52    | exp . OPERATOR_OR exp
+
+    OPERATOR_LE   shift, and go to state 61
+    OPERATOR_GE   shift, and go to state 62
+    OPERATOR_EQ   shift, and go to state 63
+    OPERATOR_NE   shift, and go to state 64
+    OPERATOR_AND  shift, and go to state 65
+    OPERATOR_OR   shift, and go to state 66
+    '>'           shift, and go to state 67
+    '<'           shift, and go to state 68
+    '+'           shift, and go to state 69
+    '-'           shift, and go to state 70
+    '*'           shift, and go to state 71
+    '/'           shift, and go to state 72
+    ')'           shift, and go to state 77
+
+
+state 58
+
+   37 exp: TK_IDENTIFIER '[' . exp ']'
+
+    TK_IDENTIFIER  shift, and go to state 45
+    LIT_INTEGER    shift, and go to state 46
+    '('            shift, and go to state 48
+
+    exp  go to state 78
+
+
+state 59
+
+   38 exp: TK_IDENTIFIER '(' . args ')'
+
+    TK_IDENTIFIER  shift, and go to state 45
+    LIT_INTEGER    shift, and go to state 46
+    '('            shift, and go to state 48
+
+    $default  reduce using rule 54 (args)
+
+    exp   go to state 79
+    args  go to state 80
+
+
+state 60
+
+   40 exp: '(' exp . ')'
+   41    | exp . '+' exp
+   42    | exp . '-' exp
+   43    | exp . '*' exp
+   44    | exp . '/' exp
+   45    | exp . OPERATOR_LE exp
+   46    | exp . OPERATOR_GE exp
+   47    | exp . OPERATOR_EQ exp
+   48    | exp . OPERATOR_NE exp
+   49    | exp . '>' exp
+   50    | exp . '<' exp
+   51    | exp . OPERATOR_AND exp
+   52    | exp . OPERATOR_OR exp
+
+    OPERATOR_LE   shift, and go to state 61
+    OPERATOR_GE   shift, and go to state 62
+    OPERATOR_EQ   shift, and go to state 63
+    OPERATOR_NE   shift, and go to state 64
+    OPERATOR_AND  shift, and go to state 65
+    OPERATOR_OR   shift, and go to state 66
+    '>'           shift, and go to state 67
+    '<'           shift, and go to state 68
+    '+'           shift, and go to state 69
+    '-'           shift, and go to state 70
+    '*'           shift, and go to state 71
+    '/'           shift, and go to state 72
+    ')'           shift, and go to state 81
+
+
+state 61
+
+   45 exp: exp OPERATOR_LE . exp
+
+    TK_IDENTIFIER  shift, and go to state 45
+    LIT_INTEGER    shift, and go to state 46
+    '('            shift, and go to state 48
+
+    exp  go to state 82
+
+
+state 62
+
+   46 exp: exp OPERATOR_GE . exp
+
+    TK_IDENTIFIER  shift, and go to state 45
+    LIT_INTEGER    shift, and go to state 46
+    '('            shift, and go to state 48
+
+    exp  go to state 83
+
+
+state 63
+
+   47 exp: exp OPERATOR_EQ . exp
+
+    TK_IDENTIFIER  shift, and go to state 45
+    LIT_INTEGER    shift, and go to state 46
+    '('            shift, and go to state 48
+
+    exp  go to state 84
+
+
+state 64
+
+   48 exp: exp OPERATOR_NE . exp
+
+    TK_IDENTIFIER  shift, and go to state 45
+    LIT_INTEGER    shift, and go to state 46
+    '('            shift, and go to state 48
+
+    exp  go to state 85
+
+
+state 65
+
+   51 exp: exp OPERATOR_AND . exp
+
+    TK_IDENTIFIER  shift, and go to state 45
+    LIT_INTEGER    shift, and go to state 46
+    '('            shift, and go to state 48
+
+    exp  go to state 86
+
+
+state 66
+
+   52 exp: exp OPERATOR_OR . exp
+
+    TK_IDENTIFIER  shift, and go to state 45
+    LIT_INTEGER    shift, and go to state 46
+    '('            shift, and go to state 48
+
+    exp  go to state 87
+
+
+state 67
+
+   49 exp: exp '>' . exp
+
+    TK_IDENTIFIER  shift, and go to state 45
+    LIT_INTEGER    shift, and go to state 46
+    '('            shift, and go to state 48
+
+    exp  go to state 88
+
+
+state 68
+
+   50 exp: exp '<' . exp
+
+    TK_IDENTIFIER  shift, and go to state 45
+    LIT_INTEGER    shift, and go to state 46
+    '('            shift, and go to state 48
+
+    exp  go to state 89
+
+
+state 69
+
+   41 exp: exp '+' . exp
+
+    TK_IDENTIFIER  shift, and go to state 45
+    LIT_INTEGER    shift, and go to state 46
+    '('            shift, and go to state 48
+
+    exp  go to state 90
+
+
+state 70
+
+   42 exp: exp '-' . exp
+
+    TK_IDENTIFIER  shift, and go to state 45
+    LIT_INTEGER    shift, and go to state 46
+    '('            shift, and go to state 48
+
+    exp  go to state 91
+
+
+state 71
+
+   43 exp: exp '*' . exp
+
+    TK_IDENTIFIER  shift, and go to state 45
+    LIT_INTEGER    shift, and go to state 46
+    '('            shift, and go to state 48
+
+    exp  go to state 92
+
+
+state 72
+
+   44 exp: exp '/' . exp
+
+    TK_IDENTIFIER  shift, and go to state 45
+    LIT_INTEGER    shift, and go to state 46
+    '('            shift, and go to state 48
+
+    exp  go to state 93
+
+
+state 73
+
+   28 assignment: TK_IDENTIFIER '[' exp . ']' '=' exp
+   41 exp: exp . '+' exp
+   42    | exp . '-' exp
+   43    | exp . '*' exp
+   44    | exp . '/' exp
+   45    | exp . OPERATOR_LE exp
+   46    | exp . OPERATOR_GE exp
+   47    | exp . OPERATOR_EQ exp
+   48    | exp . OPERATOR_NE exp
+   49    | exp . '>' exp
+   50    | exp . '<' exp
+   51    | exp . OPERATOR_AND exp
+   52    | exp . OPERATOR_OR exp
+
+    OPERATOR_LE   shift, and go to state 61
+    OPERATOR_GE   shift, and go to state 62
+    OPERATOR_EQ   shift, and go to state 63
+    OPERATOR_NE   shift, and go to state 64
+    OPERATOR_AND  shift, and go to state 65
+    OPERATOR_OR   shift, and go to state 66
+    '>'           shift, and go to state 67
+    '<'           shift, and go to state 68
+    '+'           shift, and go to state 69
+    '-'           shift, and go to state 70
+    '*'           shift, and go to state 71
+    '/'           shift, and go to state 72
+    ']'           shift, and go to state 94
+
+
+state 74
+
+   27 assignment: TK_IDENTIFIER '=' exp .
+   41 exp: exp . '+' exp
+   42    | exp . '-' exp
+   43    | exp . '*' exp
+   44    | exp . '/' exp
+   45    | exp . OPERATOR_LE exp
+   46    | exp . OPERATOR_GE exp
+   47    | exp . OPERATOR_EQ exp
+   48    | exp . OPERATOR_NE exp
+   49    | exp . '>' exp
+   50    | exp . '<' exp
+   51    | exp . OPERATOR_AND exp
+   52    | exp . OPERATOR_OR exp
+
+    OPERATOR_LE   shift, and go to state 61
+    OPERATOR_GE   shift, and go to state 62
+    OPERATOR_EQ   shift, and go to state 63
+    OPERATOR_NE   shift, and go to state 64
+    OPERATOR_AND  shift, and go to state 65
+    OPERATOR_OR   shift, and go to state 66
+    '>'           shift, and go to state 67
+    '<'           shift, and go to state 68
+    '+'           shift, and go to state 69
+    '-'           shift, and go to state 70
+    '*'           shift, and go to state 71
+    '/'           shift, and go to state 72
+
+    $default  reduce using rule 27 (assignment)
+
+
+state 75
+
+   16 commands: command ';' commands .
+
+    $default  reduce using rule 16 (commands)
+
+
+state 76
+
+   33 if: KW_IF '(' exp ')' . KW_THEN command KW_ELSE command
+   34   | KW_IF '(' exp ')' . KW_THEN command
+
+    KW_THEN  shift, and go to state 95
+
+
+state 77
+
+   35 while: KW_WHILE '(' exp ')' . command
+
+    KW_IF          shift, and go to state 26
+    KW_WHILE       shift, and go to state 27
+    KW_PRINT       shift, and go to state 28
+    KW_RETURN      shift, and go to state 29
+    KW_READ        shift, and go to state 30
+    TK_IDENTIFIER  shift, and go to state 31
+    ';'            shift, and go to state 32
+    '{'            shift, and go to state 23
+
+    commandBlock  go to state 33
+    command       go to state 96
+    assignment    go to state 36
+    read          go to state 37
+    print         go to state 38
+    return        go to state 39
+    if            go to state 40
+    while         go to state 41
+
+
+state 78
+
+   37 exp: TK_IDENTIFIER '[' exp . ']'
+   41    | exp . '+' exp
+   42    | exp . '-' exp
+   43    | exp . '*' exp
+   44    | exp . '/' exp
+   45    | exp . OPERATOR_LE exp
+   46    | exp . OPERATOR_GE exp
+   47    | exp . OPERATOR_EQ exp
+   48    | exp . OPERATOR_NE exp
+   49    | exp . '>' exp
+   50    | exp . '<' exp
+   51    | exp . OPERATOR_AND exp
+   52    | exp . OPERATOR_OR exp
+
+    OPERATOR_LE   shift, and go to state 61
+    OPERATOR_GE   shift, and go to state 62
+    OPERATOR_EQ   shift, and go to state 63
+    OPERATOR_NE   shift, and go to state 64
+    OPERATOR_AND  shift, and go to state 65
+    OPERATOR_OR   shift, and go to state 66
+    '>'           shift, and go to state 67
+    '<'           shift, and go to state 68
+    '+'           shift, and go to state 69
+    '-'           shift, and go to state 70
+    '*'           shift, and go to state 71
+    '/'           shift, and go to state 72
+    ']'           shift, and go to state 97
+
+
+state 79
+
+   41 exp: exp . '+' exp
+   42    | exp . '-' exp
+   43    | exp . '*' exp
+   44    | exp . '/' exp
+   45    | exp . OPERATOR_LE exp
+   46    | exp . OPERATOR_GE exp
+   47    | exp . OPERATOR_EQ exp
+   48    | exp . OPERATOR_NE exp
+   49    | exp . '>' exp
+   50    | exp . '<' exp
+   51    | exp . OPERATOR_AND exp
+   52    | exp . OPERATOR_OR exp
+   53 args: exp . argsCont
+
+    OPERATOR_LE   shift, and go to state 61
+    OPERATOR_GE   shift, and go to state 62
+    OPERATOR_EQ   shift, and go to state 63
+    OPERATOR_NE   shift, and go to state 64
+    OPERATOR_AND  shift, and go to state 65
+    OPERATOR_OR   shift, and go to state 66
+    '>'           shift, and go to state 67
+    '<'           shift, and go to state 68
+    '+'           shift, and go to state 69
+    '-'           shift, and go to state 70
+    '*'           shift, and go to state 71
+    '/'           shift, and go to state 72
+    ','           shift, and go to state 98
+
+    $default  reduce using rule 56 (argsCont)
+
+    argsCont  go to state 99
+
+
+state 80
+
+   38 exp: TK_IDENTIFIER '(' args . ')'
+
+    ')'  shift, and go to state 100
+
+
+state 81
+
+   40 exp: '(' exp ')' .
+
+    $default  reduce using rule 40 (exp)
+
+
+state 82
+
+   41 exp: exp . '+' exp
+   42    | exp . '-' exp
+   43    | exp . '*' exp
+   44    | exp . '/' exp
+   45    | exp . OPERATOR_LE exp
+   45    | exp OPERATOR_LE exp .
+   46    | exp . OPERATOR_GE exp
+   47    | exp . OPERATOR_EQ exp
+   48    | exp . OPERATOR_NE exp
+   49    | exp . '>' exp
+   50    | exp . '<' exp
+   51    | exp . OPERATOR_AND exp
+   52    | exp . OPERATOR_OR exp
+
+    '+'  shift, and go to state 69
+    '-'  shift, and go to state 70
+    '*'  shift, and go to state 71
+    '/'  shift, and go to state 72
+
+    $default  reduce using rule 45 (exp)
+
+
+state 83
+
+   41 exp: exp . '+' exp
+   42    | exp . '-' exp
+   43    | exp . '*' exp
+   44    | exp . '/' exp
+   45    | exp . OPERATOR_LE exp
+   46    | exp . OPERATOR_GE exp
+   46    | exp OPERATOR_GE exp .
+   47    | exp . OPERATOR_EQ exp
+   48    | exp . OPERATOR_NE exp
+   49    | exp . '>' exp
+   50    | exp . '<' exp
+   51    | exp . OPERATOR_AND exp
+   52    | exp . OPERATOR_OR exp
+
+    '+'  shift, and go to state 69
+    '-'  shift, and go to state 70
+    '*'  shift, and go to state 71
+    '/'  shift, and go to state 72
+
+    $default  reduce using rule 46 (exp)
+
+
+state 84
+
+   41 exp: exp . '+' exp
+   42    | exp . '-' exp
+   43    | exp . '*' exp
+   44    | exp . '/' exp
+   45    | exp . OPERATOR_LE exp
+   46    | exp . OPERATOR_GE exp
+   47    | exp . OPERATOR_EQ exp
+   47    | exp OPERATOR_EQ exp .
+   48    | exp . OPERATOR_NE exp
+   49    | exp . '>' exp
+   50    | exp . '<' exp
+   51    | exp . OPERATOR_AND exp
+   52    | exp . OPERATOR_OR exp
+
+    '+'  shift, and go to state 69
+    '-'  shift, and go to state 70
+    '*'  shift, and go to state 71
+    '/'  shift, and go to state 72
+
+    $default  reduce using rule 47 (exp)
+
+
+state 85
+
+   41 exp: exp . '+' exp
+   42    | exp . '-' exp
+   43    | exp . '*' exp
+   44    | exp . '/' exp
+   45    | exp . OPERATOR_LE exp
+   46    | exp . OPERATOR_GE exp
+   47    | exp . OPERATOR_EQ exp
+   48    | exp . OPERATOR_NE exp
+   48    | exp OPERATOR_NE exp .
+   49    | exp . '>' exp
+   50    | exp . '<' exp
+   51    | exp . OPERATOR_AND exp
+   52    | exp . OPERATOR_OR exp
+
+    '+'  shift, and go to state 69
+    '-'  shift, and go to state 70
+    '*'  shift, and go to state 71
+    '/'  shift, and go to state 72
+
+    $default  reduce using rule 48 (exp)
+
+
+state 86
+
+   41 exp: exp . '+' exp
+   42    | exp . '-' exp
+   43    | exp . '*' exp
+   44    | exp . '/' exp
+   45    | exp . OPERATOR_LE exp
+   46    | exp . OPERATOR_GE exp
+   47    | exp . OPERATOR_EQ exp
+   48    | exp . OPERATOR_NE exp
+   49    | exp . '>' exp
+   50    | exp . '<' exp
+   51    | exp . OPERATOR_AND exp
+   51    | exp OPERATOR_AND exp .
+   52    | exp . OPERATOR_OR exp
+
+    OPERATOR_LE  shift, and go to state 61
+    OPERATOR_GE  shift, and go to state 62
+    OPERATOR_EQ  shift, and go to state 63
+    OPERATOR_NE  shift, and go to state 64
+    '>'          shift, and go to state 67
+    '<'          shift, and go to state 68
+    '+'          shift, and go to state 69
+    '-'          shift, and go to state 70
+    '*'          shift, and go to state 71
+    '/'          shift, and go to state 72
+
+    $default  reduce using rule 51 (exp)
+
+
+state 87
+
+   41 exp: exp . '+' exp
+   42    | exp . '-' exp
+   43    | exp . '*' exp
+   44    | exp . '/' exp
+   45    | exp . OPERATOR_LE exp
+   46    | exp . OPERATOR_GE exp
+   47    | exp . OPERATOR_EQ exp
+   48    | exp . OPERATOR_NE exp
+   49    | exp . '>' exp
+   50    | exp . '<' exp
+   51    | exp . OPERATOR_AND exp
+   52    | exp . OPERATOR_OR exp
+   52    | exp OPERATOR_OR exp .
+
+    OPERATOR_LE  shift, and go to state 61
+    OPERATOR_GE  shift, and go to state 62
+    OPERATOR_EQ  shift, and go to state 63
+    OPERATOR_NE  shift, and go to state 64
+    '>'          shift, and go to state 67
+    '<'          shift, and go to state 68
+    '+'          shift, and go to state 69
+    '-'          shift, and go to state 70
+    '*'          shift, and go to state 71
+    '/'          shift, and go to state 72
+
+    $default  reduce using rule 52 (exp)
+
+
+state 88
+
+   41 exp: exp . '+' exp
+   42    | exp . '-' exp
+   43    | exp . '*' exp
+   44    | exp . '/' exp
+   45    | exp . OPERATOR_LE exp
+   46    | exp . OPERATOR_GE exp
+   47    | exp . OPERATOR_EQ exp
+   48    | exp . OPERATOR_NE exp
+   49    | exp . '>' exp
+   49    | exp '>' exp .
+   50    | exp . '<' exp
+   51    | exp . OPERATOR_AND exp
+   52    | exp . OPERATOR_OR exp
+
+    '+'  shift, and go to state 69
+    '-'  shift, and go to state 70
+    '*'  shift, and go to state 71
+    '/'  shift, and go to state 72
+
+    $default  reduce using rule 49 (exp)
+
+
+state 89
+
+   41 exp: exp . '+' exp
+   42    | exp . '-' exp
+   43    | exp . '*' exp
+   44    | exp . '/' exp
+   45    | exp . OPERATOR_LE exp
+   46    | exp . OPERATOR_GE exp
+   47    | exp . OPERATOR_EQ exp
+   48    | exp . OPERATOR_NE exp
+   49    | exp . '>' exp
+   50    | exp . '<' exp
+   50    | exp '<' exp .
+   51    | exp . OPERATOR_AND exp
+   52    | exp . OPERATOR_OR exp
+
+    '+'  shift, and go to state 69
+    '-'  shift, and go to state 70
+    '*'  shift, and go to state 71
+    '/'  shift, and go to state 72
+
+    $default  reduce using rule 50 (exp)
+
+
+state 90
+
+   41 exp: exp . '+' exp
+   41    | exp '+' exp .
+   42    | exp . '-' exp
+   43    | exp . '*' exp
+   44    | exp . '/' exp
+   45    | exp . OPERATOR_LE exp
+   46    | exp . OPERATOR_GE exp
+   47    | exp . OPERATOR_EQ exp
+   48    | exp . OPERATOR_NE exp
+   49    | exp . '>' exp
+   50    | exp . '<' exp
+   51    | exp . OPERATOR_AND exp
+   52    | exp . OPERATOR_OR exp
+
+    '*'  shift, and go to state 71
+    '/'  shift, and go to state 72
+
+    $default  reduce using rule 41 (exp)
+
+
+state 91
+
+   41 exp: exp . '+' exp
+   42    | exp . '-' exp
+   42    | exp '-' exp .
+   43    | exp . '*' exp
+   44    | exp . '/' exp
+   45    | exp . OPERATOR_LE exp
+   46    | exp . OPERATOR_GE exp
+   47    | exp . OPERATOR_EQ exp
+   48    | exp . OPERATOR_NE exp
+   49    | exp . '>' exp
+   50    | exp . '<' exp
+   51    | exp . OPERATOR_AND exp
+   52    | exp . OPERATOR_OR exp
+
+    '*'  shift, and go to state 71
+    '/'  shift, and go to state 72
+
+    $default  reduce using rule 42 (exp)
+
+
+state 92
+
+   41 exp: exp . '+' exp
+   42    | exp . '-' exp
+   43    | exp . '*' exp
+   43    | exp '*' exp .
+   44    | exp . '/' exp
+   45    | exp . OPERATOR_LE exp
+   46    | exp . OPERATOR_GE exp
+   47    | exp . OPERATOR_EQ exp
+   48    | exp . OPERATOR_NE exp
+   49    | exp . '>' exp
+   50    | exp . '<' exp
+   51    | exp . OPERATOR_AND exp
+   52    | exp . OPERATOR_OR exp
+
+    $default  reduce using rule 43 (exp)
+
+
+state 93
+
+   41 exp: exp . '+' exp
+   42    | exp . '-' exp
+   43    | exp . '*' exp
+   44    | exp . '/' exp
+   44    | exp '/' exp .
+   45    | exp . OPERATOR_LE exp
+   46    | exp . OPERATOR_GE exp
+   47    | exp . OPERATOR_EQ exp
+   48    | exp . OPERATOR_NE exp
+   49    | exp . '>' exp
+   50    | exp . '<' exp
+   51    | exp . OPERATOR_AND exp
+   52    | exp . OPERATOR_OR exp
+
+    $default  reduce using rule 44 (exp)
+
+
+state 94
+
+   28 assignment: TK_IDENTIFIER '[' exp ']' . '=' exp
+
+    '='  shift, and go to state 101
+
+
+state 95
+
+   33 if: KW_IF '(' exp ')' KW_THEN . command KW_ELSE command
+   34   | KW_IF '(' exp ')' KW_THEN . command
+
+    KW_IF          shift, and go to state 26
+    KW_WHILE       shift, and go to state 27
+    KW_PRINT       shift, and go to state 28
+    KW_RETURN      shift, and go to state 29
+    KW_READ        shift, and go to state 30
+    TK_IDENTIFIER  shift, and go to state 31
+    ';'            shift, and go to state 32
+    '{'            shift, and go to state 23
+
+    commandBlock  go to state 33
+    command       go to state 102
+    assignment    go to state 36
+    read          go to state 37
+    print         go to state 38
+    return        go to state 39
+    if            go to state 40
+    while         go to state 41
+
+
+state 96
+
+   35 while: KW_WHILE '(' exp ')' command .
+
+    $default  reduce using rule 35 (while)
+
+
+state 97
+
+   37 exp: TK_IDENTIFIER '[' exp ']' .
+
+    $default  reduce using rule 37 (exp)
+
+
+state 98
+
+   55 argsCont: ',' . exp argsCont
+
+    TK_IDENTIFIER  shift, and go to state 45
+    LIT_INTEGER    shift, and go to state 46
+    '('            shift, and go to state 48
+
+    exp  go to state 103
+
+
+state 99
+
+   53 args: exp argsCont .
+
+    $default  reduce using rule 53 (args)
+
+
+state 100
+
+   38 exp: TK_IDENTIFIER '(' args ')' .
+
+    $default  reduce using rule 38 (exp)
+
+
+state 101
+
+   28 assignment: TK_IDENTIFIER '[' exp ']' '=' . exp
+
+    TK_IDENTIFIER  shift, and go to state 45
+    LIT_INTEGER    shift, and go to state 46
+    '('            shift, and go to state 48
+
+    exp  go to state 104
+
+
+state 102
+
+   33 if: KW_IF '(' exp ')' KW_THEN command . KW_ELSE command
+   34   | KW_IF '(' exp ')' KW_THEN command .
+
+    KW_ELSE  shift, and go to state 105
+
+    KW_ELSE   [reduce using rule 34 (if)]
+    $default  reduce using rule 34 (if)
+
+
+state 103
+
+   41 exp: exp . '+' exp
+   42    | exp . '-' exp
+   43    | exp . '*' exp
+   44    | exp . '/' exp
+   45    | exp . OPERATOR_LE exp
+   46    | exp . OPERATOR_GE exp
+   47    | exp . OPERATOR_EQ exp
+   48    | exp . OPERATOR_NE exp
+   49    | exp . '>' exp
+   50    | exp . '<' exp
+   51    | exp . OPERATOR_AND exp
+   52    | exp . OPERATOR_OR exp
+   55 argsCont: ',' exp . argsCont
+
+    OPERATOR_LE   shift, and go to state 61
+    OPERATOR_GE   shift, and go to state 62
+    OPERATOR_EQ   shift, and go to state 63
+    OPERATOR_NE   shift, and go to state 64
+    OPERATOR_AND  shift, and go to state 65
+    OPERATOR_OR   shift, and go to state 66
+    '>'           shift, and go to state 67
+    '<'           shift, and go to state 68
+    '+'           shift, and go to state 69
+    '-'           shift, and go to state 70
+    '*'           shift, and go to state 71
+    '/'           shift, and go to state 72
+    ','           shift, and go to state 98
+
+    $default  reduce using rule 56 (argsCont)
+
+    argsCont  go to state 106
+
+
+state 104
+
+   28 assignment: TK_IDENTIFIER '[' exp ']' '=' exp .
+   41 exp: exp . '+' exp
+   42    | exp . '-' exp
+   43    | exp . '*' exp
+   44    | exp . '/' exp
+   45    | exp . OPERATOR_LE exp
+   46    | exp . OPERATOR_GE exp
+   47    | exp . OPERATOR_EQ exp
+   48    | exp . OPERATOR_NE exp
+   49    | exp . '>' exp
+   50    | exp . '<' exp
+   51    | exp . OPERATOR_AND exp
+   52    | exp . OPERATOR_OR exp
+
+    OPERATOR_LE   shift, and go to state 61
+    OPERATOR_GE   shift, and go to state 62
+    OPERATOR_EQ   shift, and go to state 63
+    OPERATOR_NE   shift, and go to state 64
+    OPERATOR_AND  shift, and go to state 65
+    OPERATOR_OR   shift, and go to state 66
+    '>'           shift, and go to state 67
+    '<'           shift, and go to state 68
+    '+'           shift, and go to state 69
+    '-'           shift, and go to state 70
+    '*'           shift, and go to state 71
+    '/'           shift, and go to state 72
+
+    $default  reduce using rule 28 (assignment)
+
+
+state 105
+
+   33 if: KW_IF '(' exp ')' KW_THEN command KW_ELSE . command
+
+    KW_IF          shift, and go to state 26
+    KW_WHILE       shift, and go to state 27
+    KW_PRINT       shift, and go to state 28
+    KW_RETURN      shift, and go to state 29
+    KW_READ        shift, and go to state 30
+    TK_IDENTIFIER  shift, and go to state 31
+    ';'            shift, and go to state 32
+    '{'            shift, and go to state 23
+
+    commandBlock  go to state 33
+    command       go to state 107
+    assignment    go to state 36
+    read          go to state 37
+    print         go to state 38
+    return        go to state 39
+    if            go to state 40
+    while         go to state 41
+
+
+state 106
+
+   55 argsCont: ',' exp argsCont .
+
+    $default  reduce using rule 55 (argsCont)
+
+
+state 107
+
+   33 if: KW_IF '(' exp ')' KW_THEN command KW_ELSE command .
+
+    $default  reduce using rule 33 (if)
